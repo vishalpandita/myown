@@ -1,344 +1,263 @@
-{
-   "openapi": "3.0.0",
-   "info": {
-      "version": "v1.0.0",
-      "title": "NIS APIs for dpform integration",
-      "description": "Set of APIs called for dpform integration",
-      "termsOfService": "https://nasdev.tatacommunications.com/terms-of-conditions",
-      "contact": {
-         "name": "nas dev",
-         "email": "nasdev@tatacommunications.com",
-         "url": "http://nasdev.tatacommunications.com/contact-us"
-      },
-      "license": {
-         "name": "Copyright NAS developers 2021"
-      }
-   },
-   "servers": [
-      {
-         "description": "SwaggerHub API Auto Mocking",
-         "url": "https://virtserver.swaggerhub.com/Personal_learning/nis-api/v1.0.0"
-      },
-      {
-         "description": "SwaggerHub API Auto Mocking",
-         "url": "https://virtserver.swaggerhub.com/demo/nis-api/v1.0.0"
-      },
-      {
-         "description": "Development Server",
-         "url": "https://localhost:8080/demo/nis-api/v1.0.0"
-      }
-   ],
-   "security": [
-      {
-         "ApiAuthKey": []
-      }
-   ],
-   "tags": [
-      {
-         "name": "fqdnid"
-      },
-      {
-         "name": "domain"
-      }
-   ],
-   "paths": {
-      "/fqdnid": {
-         "post": {
-            "tags": [
-               "fqdnid"
-            ],
-            "summary": "posts a fqdnid to primary domain collection",
-            "operationId": "savefqdn",
-            "requestBody": {
-               "description": "fqdn details that need to be added to primary domain",
-               "content": {
-                  "application/json": {
-                     "schema": {
-                        "$ref": "#/components/schemas/dpform"
-                     },
-                     "examples": {
-                        "option1": {
-                           "summary": "CloudSBC",
-                           "value": {
-                              "primaryDomainName": "abc15.com",
-                              "region": "oceana",
-                              "option": "cloudSBC",
-                              "type": "shared",
-                              "customerId": "af2a7ae7bc66cc3dc4d480b3",
-                              "dpFormId": "nad46tgf43jgjdsgyjjghji3"
-                           }
-                        },
-                        "option2": {
-                           "summary": "Ribbon-LBR",
-                           "value": {
-                              "primaryDomainName": "abc15.com",
-                              "region": "oceana",
-                              "option": "ribbonSBC",
-                              "type": "lbr",
-                              "customerId": "af2a7ae7bc66cc3dc4d480b3",
-                              "dpFormId": "nad46tgf43jgjdsgyjjghji3"
-                           }
-                        },
-                        "option3": {
-                           "summary": "Ribbon-Dedicated",
-                           "value": {
-                              "primaryDomainName": "abc15.com",
-                              "region": "oceana",
-                              "option": "ribbonSBC",
-                              "type": "dedicated",
-                              "customerId": "af2a7ae7bc66cc3dc4d480b3",
-                              "dpFormId": "nad46tgf43jgjdsgyjjghji3"
-                           }
-                        },
-                        "option4": {
-                           "summary": "Ribbon-Virtual",
-                           "value": {
-                              "primaryDomainName": "abc15.com",
-                              "region": "oceana",
-                              "option": "ribbonSBC",
-                              "type": "virtual",
-                              "customerId": "af2a7ae7bc66cc3dc4d480b3",
-                              "dpFormId": "nad46tgf43jgjdsgyjjghji3",
-                              "fqdnId": 10017
-                           }
-                        },
-                        "option5": {
-                           "summary": "Ribbon-Shared",
-                           "value": {
-                              "primaryDomainName": "abc15.com",
-                              "region": "oceana",
-                              "option": "ribbonSBC",
-                              "type": "virtual",
-                              "customerId": "af2a7ae7bc66cc3dc4d480b3",
-                              "dpFormId": "nad46tgf43jgjdsgyjjghji3"
-                           }
-                        }
-                     }
-                  }
-               },
-               "required": true
-            },
-            "responses": {
-               "200": {
-                  "description": "dpformid is saved and fqdnid returned back",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/fqdnidresponse"
-                        }
-                     }
-                  }
-               },
-               "400": {
-                  "description": "Error occurred somewhere",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/400"
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      },
-      "/domains/{domainName}": {
-         "get": {
-            "tags": [
-               "domain"
-            ],
-            "summary": "Fetch domain details",
-            "description": "Returns all teams trunk configuration for the domain",
-            "operationId": "getDomainByName",
-            "parameters": [
-               {
-                  "name": "domainName",
-                  "in": "path",
-                  "description": "primary domain name",
-                  "required": true,
-                  "schema": {
-                     "type": "string",
-                     "example": "tatacommunications.com"
-                  }
-               }
-            ],
-            "responses": {
-               "200": {
-                  "description": "domain details found",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/domain"
-                        }
-                     }
-                  }
-               },
-               "400": {
-                  "description": "Error occurred somewhere",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/400"
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-   },
-   "components": {
-      "securitySchemes": {
-         "ApiAuthKey": {
-            "type": "apiKey",
-            "in": "header",
-            "name": "X-Auth-Token"
-         }
-      },
-      "schemas": {
-         "400": {
-            "description": "Schema for fqdn",
-            "type": "object",
-            "properties": {
-               "error": {
-                  "type": "string",
-                  "example": "Bad-request--Invalid body in your request"
-               }
-            }
-         },
-         "fqdnidresponse": {
-            "description": "Schema for fqdnId response",
-            "type": "object",
-            "properties": {
-               "fqdnId": {
-                  "type": "string",
-                  "example": "10017"
-               },
-               "isReused": {
-                  "type": "boolean",
-                  "example": false
-               }
-            }
-         },
-         "dpform": {
-            "description": "Schema for fqdn",
-            "type": "object",
-            "properties": {
-               "primaryDomainName": {
-                  "type": "string",
-                  "description": "Primary domain of customer office 365 tenant.",
-                  "example": "tatacommunications.com"
-               },
-               "region": {
-                  "type": "string",
-                  "x-enumNames": [
-                     "northamerica",
-                     "mena",
-                     "oceana",
-                     "asia"
-                  ],
-                  "enum": [
-                     "noorthamerica",
-                     "mena",
-                     "oceana",
-                     "asia"
-                  ],
-                  "example": "Oceana"
-               },
-               "option": {
-                  "type": "string",
-                  "x-enumNames": [
-                     "cloudSBC",
-                     "ribbonSBC"
-                  ],
-                  "enum": [
-                     "cloudSBC",
-                     "ribbonSBC"
-                  ],
-                  "example": "cloudSBC"
-               },
-               "type": {
-                  "type": "string",
-                  "example": "shared"
-               },
-               "customerId": {
-                  "type": "string",
-                  "example": "5f2a7ae7bc66cc3dc4d480b3"
-               },
-               "dpFormId": {
-                  "type": "string",
-                  "example": "892a7ae7bc66cc3dc4d48ze3"
-               }
-            }
-         },
-         "domain": {
-            "description": "Schema for domain",
-            "type": "object",
-            "properties": {
-               "domain": {
-                  "type": "string",
-                  "example": "tatacommunications.com"
-               },
-               "domainFqdnId": {
-                  "type": "string",
-                  "example": "10017"
-               },
-               "customerids": {
-                  "type": "array",
-                  "items": {
-                     "type": "string"
-                  }
-               },
-               "cloudSbc": {
-                  "type": "array",
-                  "items": {
-                     "type": "object",
-                     "properties": {
-                        "region": {
-                           "type": "string",
-                           "example": "oceana"
-                        },
-                        "dpformId": {
-                           "type": "string",
-                           "example": "892a7ae7bc66cc3dc4d48ze3"
-                        },
-                        "fqdnid": {
-                           "type": "string",
-                           "example": "10017"
-                        },
-                        "type": {
-                           "type": "string",
-                           "example": "shared"
-                        }
-                     }
-                  }
-               },
-               "ribbonSBC": {
-                  "type": "array",
-                  "items": {
-                     "type": "object",
-                     "properties": {
-                        "region": {
-                           "type": "string",
-                           "example": "oceana"
-                        },
-                        "dpformId": {
-                           "type": "string",
-                           "example": "892a7ae7bc66cc3dc4d48ze3"
-                        },
-                        "fqdnid": {
-                           "type": "string",
-                           "example": "10017"
-                        },
-                        "type": {
-                           "type": "string",
-                           "example": "shared"
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-   }
-}
+openapi: 3.0.0
+info:
+  version: v1.0.0
+  title: NIS APIs for dpform integration
+  description: Set of APIs called for dpform integration
+  termsOfService: 'https://nasdev.tatacommunications.com/terms-of-conditions'
+  contact:
+    name: nas dev
+    email: nasdev@tatacommunications.com
+    url: http://nasdev.tatacommunications.com/contact-us
+  license:
+    name: Copyright NAS developers 2021
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Personal_learning/nis-api/v1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/demo/nis-api/v1.0.0
+  # Added by API Auto Mocking Plugin
+  - description: Development Server
+    url: https://localhost:8080/demo/nis-api/v1.0.0
+security: 
+  - ApiAuthKey: []
+  
+tags: 
+  - name: fqdnid
+  - name: domain
+  
+paths:
+  /fqdnid:
+    post:
+      tags:
+      - fqdnid
+      summary: posts a fqdnid to primary domain collection
+      operationId: savefqdn
+      requestBody:
+        description: fqdn details that need to be added to primary domain
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dpform'
+            examples:
+              option1:
+                summary: CloudSBC
+                value:
+                  primaryDomainName: abc15.com
+                  region: oceana
+                  option: cloudSBC
+                  type: shared
+                  customerId: af2a7ae7bc66cc3dc4d480b3
+                  dpFormId: nad46tgf43jgjdsgyjjghji3
+                  
+              option2:
+                summary: Ribbon-LBR
+                value:
+                  primaryDomainName: abc15.com
+                  region: oceana
+                  option: ribbonSBC
+                  type: lbr
+                  customerId: af2a7ae7bc66cc3dc4d480b3
+                  dpFormId: nad46tgf43jgjdsgyjjghji3
+                  
+              option3:
+                summary: Ribbon-Dedicated
+                value:
+                  primaryDomainName: abc15.com
+                  region: oceana
+                  option: ribbonSBC
+                  type: dedicated
+                  customerId: af2a7ae7bc66cc3dc4d480b3
+                  dpFormId: nad46tgf43jgjdsgyjjghji3
+                  
+              option4:
+                summary: Ribbon-Virtual
+                value:
+                  primaryDomainName: abc15.com
+                  region: oceana
+                  option: ribbonSBC
+                  type: virtual
+                  customerId: af2a7ae7bc66cc3dc4d480b3
+                  dpFormId: nad46tgf43jgjdsgyjjghji3
+                  fqdnId: 10017
+                  
+              option5:
+                summary: Ribbon-Shared
+                value:
+                  primaryDomainName: abc15.com
+                  region: oceana
+                  option: ribbonSBC
+                  type: virtual
+                  customerId: af2a7ae7bc66cc3dc4d480b3
+                  dpFormId: nad46tgf43jgjdsgyjjghji3
+                
+
+        required: true
+      responses:
+        200:
+          description: dpformid is saved and fqdnid returned back
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fqdnidresponse'
+        400:
+          description: Error occurred somewhere
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+                
+            
+          
+  /domains/{domainName}:
+    get:
+      tags: 
+      - domain
+      summary: Fetch domain details
+      description: Returns all teams trunk configuration for the domain
+      operationId: getDomainByName
+      parameters: 
+      - name: domainName
+        in: path
+        description: primary domain name
+        required: true
+        schema:
+          type: string
+          example: tatacommunications.com
+      responses:
+        200:
+          description: domain details found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domain'
+        400:
+          description: Error occurred somewhere
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+          
+      
+  
+components:
+  securitySchemes:
+    ApiAuthKey: 
+      type: apiKey
+      in: header
+      name: X-Auth-Token
+    
+
+  schemas:
+    fqdnidresponse:
+      description: 'Schema for fqdnId response'
+      type: object
+      properties:
+        fqdnId:
+          type: string
+          example: "10017"
+        isReused:
+          type: boolean
+          example: false
+          
+    400:
+      description: 'Schema for fqdn'
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Bad-request--Invalid body in your request"
+          
+    dpform:
+      description: 'Schema for fqdn'
+      type: object
+      properties:
+        primaryDomainName:
+          type: string
+          description: "Primary domain of customer office 365 tenant.\r\n>Note: It is the primary key for the collection.\r\n`Existing` entry will update else insert (upsert)"
+          example: "tatacommunications.com"
+        region:
+          type: string
+          description: One of four regions where SBCs are selected.
+          x-enumNames:
+          - northamerica
+          - mena
+          - oceana
+          - asia
+          enum: 
+          - noorthamerica
+          - mena
+          - oceana
+          - asia
+          example: "Oceana"
+        option:
+          type: string
+          x-enumNames:
+          - cloudSBC
+          - ribbonSBC
+          enum: 
+          - cloudSBC
+          - ribbonSBC
+          
+          example: "cloudSBC"
+        type:
+          type: string
+          example: "shared"
+        customerId:
+          type: string
+          example: "5f2a7ae7bc66cc3dc4d480b3"
+        dpFormId:
+          type: string
+          example: "892a7ae7bc66cc3dc4d48ze3"
+          
+          
+    domain:
+      description: 'Schema for domain'
+      type: object
+      properties:
+        domain:
+          type: string
+          example: "tatacommunications.com"
+        domainFqdnId:
+          type: string
+          example: "10017"
+        customerids:
+          type: array
+          items:
+            type: string
+        cloudSbc:
+          type: array
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                example: "oceana"
+              dpformId:
+                type: string
+                example: "892a7ae7bc66cc3dc4d48ze3"
+              fqdnid:
+                type: string
+                example: "10017"
+              type:
+                type: string
+                example: "shared"
+                
+        ribbonSBC:
+          type: array
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                example: "oceana"
+              dpformId:
+                type: string
+                example: "892a7ae7bc66cc3dc4d48ze3"
+              fqdnid:
+                type: string
+                example: "10017"
+              type:
+                type: string
+                example: "shared"
