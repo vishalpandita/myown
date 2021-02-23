@@ -186,11 +186,10 @@ components:
           - oceana
           - asia
           enum: 
-          - noorthamerica
+          - northamerica
           - mena
           - oceana
           - asia
-          example: "Oceana"
         option:
           type: string
           x-enumNames:
@@ -199,33 +198,46 @@ components:
           enum: 
           - cloudSBC
           - ribbonSBC
-          
-          example: "cloudSBC"
         type:
           type: string
-          example: "shared"
+          description: Trunk Type
+          enum: 
+          - shared
+          - virtual
+          - dedicated
+          - lbr
         customerId:
           type: string
-          example: "5f2a7ae7bc66cc3dc4d480b3"
+          format: guid
+          description: Guid of the customer on the current dpform
         dpFormId:
           type: string
-          example: "892a7ae7bc66cc3dc4d48ze3"
+          format: guid
+          description: Current DPForm Id
+        fqdnId:
+          type: string
+          nullable: true
+          description: "fqdnid of the virtual trunk.\n\nRequired if `type = shared`"
           
           
     domain:
-      description: 'Schema for domain'
+      description: 'Schema for domain object. It has its own collection'
       type: object
       properties:
         domain:
           type: string
+          description: Gets primary domain details. Fetches all SBCs (Cloud,Ribbon) for the primary domain across customers.
           example: "tatacommunications.com"
         domainFqdnId:
+          description: Domain parent fqdnid. This id is assigned to the domain during creation at the first time
           type: string
           example: "10017"
-        customerids:
+        customerids: 
+          description: List of all customer ids under this domain who have dpforms for teams.
           type: array
           items:
             type: string
+            format: guid
         cloudSbc:
           type: array
           items:
