@@ -30,7 +30,7 @@
    ],
    "security": [
       {
-         "ApiAuthKey": []
+         "basicAuth": []
       }
    ],
    "tags": [
@@ -189,10 +189,9 @@
    },
    "components": {
       "securitySchemes": {
-         "ApiAuthKey": {
-            "type": "apiKey",
-            "in": "header",
-            "name": "X-Auth-Token"
+         "basicAuth": {
+            "type": "http",
+            "scheme": "basic"
          }
       },
       "schemas": {
@@ -344,8 +343,10 @@
                "type": {
                   "type": "string",
                   "enum": [
-                     "cloudSBC",
-                     "ribbonSBC"
+                     "shared",
+                     "virtual",
+                     "dedicated",
+                     "lbr"
                   ]
                }
             }
