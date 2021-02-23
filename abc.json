@@ -1,0 +1,211 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NIS APIs for dpform integration",
+    "description": "Set of APIs called for dpform integration",
+    "termsOfService": "https://nasdev.tatacommunications.com/terms-of-conditions",
+    "contact": {
+      "name": "nas dev",
+      "url": "http://nasdev.tatacommunications.com/contact-us",
+      "email": "nasdev@tatacommunications.com"
+    },
+    "license": {
+      "name": "Copyright NAS developers 2021"
+    },
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/Personal_learning/nis-api/v1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://virtserver.swaggerhub.com/demo/nis-api/v1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://localhost:8080/demo/nis-api/v1.0.0",
+      "description": "Development Server"
+    }
+  ],
+  "security": [
+    {
+      "ApiAuthKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "fqdnid"
+    },
+    {
+      "name": "dpformid"
+    }
+  ],
+  "paths": {
+    "/fqdnid": {
+      "post": {
+        "tags": [
+          "fqdnid"
+        ],
+        "summary": "posts a fqdnid to primary domain collection",
+        "operationId": "savefqdn",
+        "requestBody": {
+          "description": "fqdn details that need to be added to primary domain",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/dpform"
+              },
+              "examples": {
+                "option1": {
+                  "summary": "CloudSBC",
+                  "value": {
+                    "primaryDomainName": "abc15.com",
+                    "region": "oceana",
+                    "option": "cloudSBC",
+                    "type": "shared",
+                    "customerId": "af2a7ae7bc66cc3dc4d480b3",
+                    "dpFormId": "nad46tgf43jgjdsgyjjghji3"
+                  }
+                },
+                "option2": {
+                  "summary": "Ribbon-LBR",
+                  "value": {
+                    "primaryDomainName": "abc15.com",
+                    "region": "oceana",
+                    "option": "ribbonSBC",
+                    "type": "lbr",
+                    "customerId": "af2a7ae7bc66cc3dc4d480b3",
+                    "dpFormId": "nad46tgf43jgjdsgyjjghji3"
+                  }
+                },
+                "option3": {
+                  "summary": "Ribbon-Dedicated",
+                  "value": {
+                    "primaryDomainName": "abc15.com",
+                    "region": "oceana",
+                    "option": "ribbonSBC",
+                    "type": "dedicated",
+                    "customerId": "af2a7ae7bc66cc3dc4d480b3",
+                    "dpFormId": "nad46tgf43jgjdsgyjjghji3"
+                  }
+                },
+                "option4": {
+                  "summary": "Ribbon-Virtual",
+                  "value": {
+                    "primaryDomainName": "abc15.com",
+                    "region": "oceana",
+                    "option": "ribbonSBC",
+                    "type": "virtual",
+                    "customerId": "af2a7ae7bc66cc3dc4d480b3",
+                    "dpFormId": "nad46tgf43jgjdsgyjjghji3",
+                    "fqdnId": 10017
+                  }
+                },
+                "option5": {
+                  "summary": "Ribbon-Shared",
+                  "value": {
+                    "primaryDomainName": "abc15.com",
+                    "region": "oceana",
+                    "option": "ribbonSBC",
+                    "type": "virtual",
+                    "customerId": "af2a7ae7bc66cc3dc4d480b3",
+                    "dpFormId": "nad46tgf43jgjdsgyjjghji3"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "dpformid is saved and fqdnid returned back",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/fqdnidresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error occurred somewhere",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "400": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Bad-request--Invalid body in your request"
+          }
+        },
+        "description": "Schema for fqdn"
+      },
+      "fqdnidresponse": {
+        "type": "object",
+        "properties": {
+          "fqdnId": {
+            "type": "string",
+            "example": "10017"
+          },
+          "isReused": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "description": "Schema for fqdnId response"
+      },
+      "dpform": {
+        "type": "object",
+        "properties": {
+          "primaryDomainName": {
+            "type": "string",
+            "example": "tatacommunications.com"
+          },
+          "region": {
+            "type": "string",
+            "example": "Oceana"
+          },
+          "option": {
+            "type": "string",
+            "example": "cloudSBC"
+          },
+          "type": {
+            "type": "string",
+            "example": "shared"
+          },
+          "customerId": {
+            "type": "string",
+            "example": "5f2a7ae7bc66cc3dc4d480b3"
+          },
+          "dpFormId": {
+            "type": "string",
+            "example": "892a7ae7bc66cc3dc4d48ze3"
+          }
+        },
+        "description": "Schema for fqdn"
+      }
+    },
+    "securitySchemes": {
+      "ApiAuthKey": {
+        "type": "apiKey",
+        "name": "X-Auth-Token",
+        "in": "header"
+      }
+    }
+  }
+}
